@@ -4,12 +4,14 @@ public class EdgeHanging : MonoBehaviour
 {
     private bool _canHang = false;
     public bool isHanging { get; private set; }
+    public bool isHangingOnFur { get; private set; }
 
     private MeshRenderer _meshRenderer;
 
     private Player _player;
 
     private Vector3 _newPosition;
+    private Quaternion _newRotation;
 
     #region Chest raycast variables
     [Header("Chest raycast")]
@@ -28,9 +30,6 @@ public class EdgeHanging : MonoBehaviour
     [SerializeField, Range(0, 10)]
     private float _upVerticalOffset = 1f;
     #endregion
-
-    //[SerializeField, Range(0, 10)]
-    //private int _qualityCheck = 1;
 
     #region Raycast variables
     // [A, B]
@@ -66,7 +65,7 @@ public class EdgeHanging : MonoBehaviour
         if (isHanging)
         {
             Climb();
-        } 
+        }
     }
 
     void LateUpdate()
@@ -76,18 +75,33 @@ public class EdgeHanging : MonoBehaviour
             transform.position = _newPosition;
             _newPosition = Vector3.zero;
         }
+
+        if (_newRotation != Quaternion.identity)
+        {
+            transform.rotation = _newRotation;
+            _newRotation = Quaternion.identity;
+        }
     }
 
-    void OnDrawGizmosSelected()
+    // Helper to check the raycast :D
+    void OnDrawGizmos()
     {
-        Vector3[] linePoints = CalculateLinePoints();
+        Vector3 startPoint = transform.position + transform.up * _chestVerticalOffset;
+        RaycastHit hit;
 
-        Gizmos.color = Color.black;
-        Gizmos.DrawLine(linePoints[0], linePoints[1]);
+        if (Physics.Raycast(startPoint, transform.forward, out hit, _maxHangDistance, _canHangLayers))
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawRay(startPoint, -hit.normal * hit.distance);
+        }
+        else
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawRay(startPoint, transform.forward * _maxHangDistance);
+        }
     }
 
     #region Methods
-    // TODO: If is a surface that we can grab
     private void CheckForHanggableObject()
     {
         _raycastLine = CalculateLinePoints();
@@ -98,10 +112,9 @@ public class EdgeHanging : MonoBehaviour
             verticalRaycastPos += transform.forward * .1f;
             verticalRaycastPos.y += _upVerticalOffset;
 
-            if (Physics.Raycast(verticalRaycastPos, Vector3.down, out _hitVertical, _upVerticalOffset, _canHangLayers))
+            // Fur is a surface we can hang/grab!
+            if (Physics.Raycast(verticalRaycastPos, Vector3.down, out _hitVertical, _upVerticalOffset, _canHangLayers) || _hitHorizontal.transform.CompareTag("Fur"))
             {
-                Debug.DrawLine(verticalRaycastPos, _hitVertical.point, Color.green);
-
                 _canHang = true;
 
                 return;
@@ -117,13 +130,28 @@ public class EdgeHanging : MonoBehaviour
     {
         if (_player.walkPressed)
         {
-            Vector3 bounds = _meshRenderer.bounds.extents;
-
             isHanging = true;
 
-            Vector3 hangPosition = new Vector3(_hitHorizontal.point.x, _hitVertical.point.y - bounds.y, _hitHorizontal.point.z) - Vector3.Scale(transform.forward, bounds);
+            // TODO: Slice of the player inside of the object
+            if (!_hitHorizontal.transform.CompareTag("Fur"))
+            {
+                Vector3 bounds = _meshRenderer.bounds.extents;
 
-            _newPosition = hangPosition;
+                isHanging = true;
+
+                Vector3 hangPosition = new Vector3(_hitHorizontal.point.x, _hitVertical.point.y - bounds.y, _hitHorizontal.point.z) - Vector3.Scale(transform.forward, bounds);
+
+                _newPosition = hangPosition;
+            }
+            else
+            {
+                isHangingOnFur = true;
+
+                _newPosition = _hitHorizontal.point;
+
+                // Rotate the player as well!
+                _newRotation = Quaternion.LookRotation(-_hitHorizontal.normal);
+            }
         }
     }
 

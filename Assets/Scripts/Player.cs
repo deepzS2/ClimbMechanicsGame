@@ -138,18 +138,30 @@ public class Player : MonoBehaviour, IDamageable
     {
         Vector2 movementInput = _playerInputs.Player.Move.ReadValue<Vector2>();
 
-        _movement.x = movementInput.x;
-        _movement.z = movementInput.y;
-
-        if (_edgeHanging.isHanging) _movement = transform.right * movementInput;
+        if (_edgeHanging.isHanging && !_edgeHanging.isHangingOnFur) _movement = transform.right * movementInput;
+        else if (_edgeHanging.isHanging && _edgeHanging.isHangingOnFur)
+        {
+            _movement = transform.right * movementInput.x + transform.up * movementInput.y;
+        }
+        else
+        {
+            _movement.x = movementInput.x;
+            _movement.z = movementInput.y;
+        }
 
         Vector3 normalizedMovement = new Vector3(_movement.x, 0f, _movement.z).normalized;
 
         if (normalizedMovement.magnitude >= .1f)
         {
-            _targetAngle = Mathf.Atan2(normalizedMovement.x, normalizedMovement.z) * Mathf.Rad2Deg + _camera.eulerAngles.y;
+            Vector3 moveDirection = normalizedMovement;
 
-            Vector3 moveDirection = (Quaternion.Euler(0f, _targetAngle, 0f) * Vector3.forward).normalized;
+            // If we are hanging we don't want the user to move based on camera!
+            if (!_edgeHanging.isHanging && !_edgeHanging.isHangingOnFur)
+            {
+                _targetAngle = Mathf.Atan2(normalizedMovement.x, normalizedMovement.z) * Mathf.Rad2Deg + _camera.eulerAngles.y;
+
+                moveDirection = (Quaternion.Euler(0f, _targetAngle, 0f) * Vector3.forward).normalized;
+            }
 
             _movement.x = !walkPressed ? moveDirection.x * _speed : moveDirection.x * _speed * _walkSpeedMultiplier;
             _movement.z = !walkPressed ? moveDirection.z * _speed : moveDirection.z * _speed * _walkSpeedMultiplier;
