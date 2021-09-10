@@ -315,6 +315,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2970662041208832084, guid: 56096ece62cea2c44a7dafb36255b10f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9980622
+      objectReference: {fileID: 0}
+    - target: {fileID: 2970662041208832084, guid: 56096ece62cea2c44a7dafb36255b10f, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0.06222485
       objectReference: {fileID: 0}
@@ -330,6 +334,10 @@ PrefabInstance:
       propertyPath: m_LookAt
       value: 
       objectReference: {fileID: 1345009793}
+    - target: {fileID: 2970662041529607169, guid: 56096ece62cea2c44a7dafb36255b10f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.99993825
+      objectReference: {fileID: 0}
     - target: {fileID: 2970662041529607169, guid: 56096ece62cea2c44a7dafb36255b10f, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0.0111195445
@@ -379,16 +387,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2970662042705323562, guid: 56096ece62cea2c44a7dafb36255b10f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9980622
+      objectReference: {fileID: 0}
+    - target: {fileID: 2970662042705323562, guid: 56096ece62cea2c44a7dafb36255b10f, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0.06222485
       objectReference: {fileID: 0}
     - target: {fileID: 2970662042705323562, guid: 56096ece62cea2c44a7dafb36255b10f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000010483114
+      value: -0.000000018902778
       objectReference: {fileID: 0}
     - target: {fileID: 2970662042705323562, guid: 56096ece62cea2c44a7dafb36255b10f, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000024003173
+      value: 0.0000000041678407
       objectReference: {fileID: 0}
     - target: {fileID: 2970662042705323563, guid: 56096ece62cea2c44a7dafb36255b10f, type: 3}
       propertyPath: m_LookAt
@@ -895,6 +907,10 @@ PrefabInstance:
     - target: {fileID: 902311069, guid: 73e852d1dd7660846acc946abdd20cdb, type: 3}
       propertyPath: _maxHangDistance
       value: 2.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639154412954685813, guid: 73e852d1dd7660846acc946abdd20cdb, type: 3}
+      propertyPath: _maxHealth
+      value: 48
       objectReference: {fileID: 0}
     - target: {fileID: 4726030917003705443, guid: 73e852d1dd7660846acc946abdd20cdb, type: 3}
       propertyPath: m_RootOrder
