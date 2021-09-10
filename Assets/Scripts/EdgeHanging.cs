@@ -60,9 +60,10 @@ public class EdgeHanging : MonoBehaviour
         else if (!_canHang && isHanging || isHanging && !_player.walkPressed)
         {
             isHanging = false;
+            isHangingOnFur = false;
         }
 
-        if (isHanging)
+        if (isHanging && !isHangingOnFur)
         {
             Climb();
         }
@@ -128,18 +129,14 @@ public class EdgeHanging : MonoBehaviour
 
     private void HangOnObject()
     {
-        if (_player.walkPressed)
+        if (_player.walkPressed && !isHanging)
         {
             isHanging = true;
+            Vector3 bounds = _meshRenderer.bounds.extents;
 
-            // TODO: Slice of the player inside of the object
             if (!_hitHorizontal.transform.CompareTag("Fur"))
             {
-                Vector3 bounds = _meshRenderer.bounds.extents;
-
-                isHanging = true;
-
-                Vector3 hangPosition = new Vector3(_hitHorizontal.point.x, _hitVertical.point.y - bounds.y, _hitHorizontal.point.z) - Vector3.Scale(transform.forward, bounds);
+                Vector3 hangPosition = new Vector3(_hitHorizontal.point.x, _hitVertical.point.y - bounds.y, _hitHorizontal.point.z) + Vector3.Scale(-transform.forward, bounds);
 
                 _newPosition = hangPosition;
             }
@@ -147,11 +144,11 @@ public class EdgeHanging : MonoBehaviour
             {
                 isHangingOnFur = true;
 
-                _newPosition = _hitHorizontal.point;
-
-                // Rotate the player as well!
-                _newRotation = Quaternion.LookRotation(-_hitHorizontal.normal);
+                _newPosition = _hitHorizontal.point + Vector3.Scale(-transform.forward, bounds);
             }
+
+            // Rotate the player as well!
+            _newRotation = Quaternion.LookRotation(-_hitHorizontal.normal);
         }
     }
 

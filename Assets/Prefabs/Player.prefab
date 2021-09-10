@@ -169,8 +169,8 @@ GameObject:
   - component: {fileID: 4726030917003705445}
   - component: {fileID: 4726030917003705446}
   - component: {fileID: 1698534753}
-  - component: {fileID: 4639154412954685813}
   - component: {fileID: 333544304510184767}
+  - component: {fileID: 4639154412954685813}
   - component: {fileID: 902311069}
   m_Layer: 0
   m_Name: Player
@@ -278,24 +278,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4639154412954685813
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4726030917003705447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6b164902ec28b54e99142b6279a559c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxHealth: 0
-  _speed: 6.64
-  _walkSpeedMultiplier: 0.25
-  _jumpTime: 0.75
-  _jumpHeight: 4
-  _turnSmoothTime: 0.1
 --- !u!114 &333544304510184767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,6 +332,24 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &4639154412954685813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4726030917003705447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6b164902ec28b54e99142b6279a559c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 0
+  _speed: 6.64
+  _walkSpeedMultiplier: 0.25
+  _jumpTime: 0.75
+  _jumpHeight: 4
+  _turnSmoothTime: 0.1
 --- !u!114 &902311069
 MonoBehaviour:
   m_ObjectHideFlags: 0
